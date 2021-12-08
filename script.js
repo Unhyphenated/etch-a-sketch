@@ -3,12 +3,16 @@ const container = document.getElementById("container");
 let rows = document.getElementsByClassName("gridRow");
 let cols = document.getElementsByClassName("gridCol")
 
+
+
 // Default grid function
 defaultGrid();
 function defaultGrid() {
     createRows(16);
     createColumns(16);
 }
+
+
 
 // Function to create rows
 function createRows(rowNum) {
@@ -26,8 +30,15 @@ function createColumns(colNum) {
     for (let i = 0; i < rows.length; i++) {
         // Second loop creates a division that is styled within the division that is active 
         for (let j = 0; j < colNum; j++) {
+            // Creates divisions with gridCol within each row 
             let col = document.createElement("div");
             rows[j].appendChild(col).className = "gridCol";
         };
     };
 };
+
+// When mouse hovers over grid square, change its color
+const colors = document.querySelectorAll(".gridCol");
+colors.forEach(gridCol => gridCol.addEventListener("mouseover", () => {
+    gridCol.classList.add("colored");
+}));
