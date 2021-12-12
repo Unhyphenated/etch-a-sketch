@@ -1,44 +1,65 @@
 // Declaring variables and constants
-const container = document.getElementById("container");
-let rows = document.getElementsByClassName("gridRow");
-let cols = document.getElementsByClassName("gridCol")
+const grid = document.querySelector(".gridContainer");
+const userInput = document.getElementById("quantity");
+const resetButton = document.querySelector(".reset")
 
-
-
-// Default grid function
-defaultGrid();
-function defaultGrid() {
-    createRows(16);
-    createColumns(16);
-}
-
-
-
-// Function to create rows
-function createRows(rowNum) {
-    // Creates divisions with the class gridRow 
-        // These divisions are empty and will later be filled by cols
-    for (let r = 0; r < rowNum; r++) {
-        let row = document.createElement("div");
-        container.appendChild(row).className = "gridRow";
-    };
+// Function that creates a specific number of divisions
+function makeGrid() {
+    // Loop to create divisions within grid
+    for (let i = 0; i < 256; i++) {
+        const div = document.createElement("div");
+        div.classList.add("pixel");
+        grid.appendChild(div);
+    }
 };
 
-// Function to create columns
-function createColumns(colNum) {
-    // First loop iterates the total number of rows, it cycles through each division with gridRow as a class, within each cycle, each division is selected and made active
-    for (let i = 0; i < rows.length; i++) {
-        // Second loop creates a division that is styled within the division that is active 
-        for (let j = 0; j < colNum; j++) {
-            // Creates divisions with gridCol within each row 
-            let col = document.createElement("div");
-            rows[j].appendChild(col).className = "gridCol";
-        };
-    };
+// Function that changes number of pixels based on user input
+function changeGrid() {
+    grid.innerHTML = "";
+    grid.style.setProperty(
+        "grid-template-columns",
+        `repeat(${userInput.value}, 2fr)`
+        );
+
+    grid.style.setProperty(
+        "grid-template-rows",
+        `repeat(${userInput.value}, 2fr)`
+    );
+
+    for (let i = 0; i < userInput.value * userInput.value; i++) {
+        const div = document.createElement("div");
+        div.classList.add("pixel");
+        grid.appendChild(div);
+    }
+    console.log(userInput.value);
 };
 
-// When mouse hovers over grid square, change its color
-const colors = document.querySelectorAll(".gridCol");
-colors.forEach(gridCol => gridCol.addEventListener("mouseover", () => {
-    gridCol.classList.add("colored");
-}));
+function getRandomColor() {
+    let letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+
+// Function that changes pixel color when mouse hovers over it
+const pixel = document.querySelector("div");
+pixel.addEventListener("mouseover", function(event) {
+    
+    event.target.style.backgroundColor = getRandomColor();
+});
+
+// Changes grid according to user input value
+userInput.addEventListener("change", changeGrid);
+
+// Resets page
+resetButton.addEventListener("click", function() {
+    grid.innerHTML = "";
+    userInput.value = "";
+    grid.style.setProperty("grid-template-columns", `repeat(16, 2fr)`);
+    grid.style.setProperty("grid-template-rows", `repeat(16, 2fr)`);
+    makeGrid();
+});
+
+makeGrid();

@@ -4,12 +4,19 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    
+    <link rel="stylesheet" type="text/css" href="style.css">
     <title>Etch-A-Sketch</title>
 </head>
 <body>
-    <div id="container"></div>
+    <!-- The grid div must be inserted first to trigger the querySelector -->
+        <div class="gridContainer"></div>
+
+    <div class="header">
+        <h1>Etch-A-Sketch</h1>
+        <label for="quantity">Insert Grid Size:</label>
+        <input type="number" id="quantity" name="quantity">
+        <button class="reset">RESET</button>
+    </div>
     <script type="text/JavaScript" src="script.js"></script>
 </body>
 </html>
