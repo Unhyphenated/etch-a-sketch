@@ -1,65 +1,114 @@
 // Declaring variables and constants
 const grid = document.querySelector(".gridContainer");
-const userInput = document.getElementById("quantity");
-const resetButton = document.querySelector(".reset")
+const inputNumber = document.getElementById("quantity");
+const resetButton = document.querySelector("button");
+const body = document.querySelector("body");
 
-// Function that creates a specific number of divisions
-function makeGrid() {
-    // Loop to create divisions within grid
-    for (let i = 0; i < 256; i++) {
+// Creating divisions and appending it to the div container
+createGrid = () => {
+    for(let i = 0; i < 256; i++) {
         const div = document.createElement("div");
         div.classList.add("pixel");
         grid.appendChild(div);
-    }
+    };
 };
 
-// Function that changes number of pixels based on user input
-function changeGrid() {
-    grid.innerHTML = "";
-    grid.style.setProperty(
-        "grid-template-columns",
-        `repeat(${userInput.value}, 2fr)`
-        );
-
-    grid.style.setProperty(
-        "grid-template-rows",
-        `repeat(${userInput.value}, 2fr)`
+// Changes size of grid 
+updateGrid = () => {
+    grid.innerHTML = ""
+    grid.style.setProperty (
+        "grid-template-columns", `repeat(${inputNumber.value}, 2fr)`
     );
-
-    for (let i = 0; i < userInput.value * userInput.value; i++) {
+    grid.style.setProperty (
+        "grid-template-rows", `repeat(${inputNumber.value}, 2fr)`
+    );
+    for (let i = 0; i < inputNumber.value * inputNumber.value; i++) {
         const div = document.createElement("div");
         div.classList.add("pixel");
         grid.appendChild(div);
-    }
-    console.log(userInput.value);
+    };
 };
 
-function getRandomColor() {
-    let letters = '0123456789ABCDEF';
-    let color = '#';
-    for (let i = 0; i < 6; i++) {
-      color += letters[Math.floor(Math.random() * 16)];
+// Return a random color
+randomColor = () => {
+    let code = "0123456789ABCDEF";
+    let color = "#"; 
+    for(let i = 0; i < 6; i++) {
+        color += code[Math.floor(Math.random() * code.length)]
     }
     return color;
-  }
+}
 
-// Function that changes pixel color when mouse hovers over it
+// When value is inputted, change the grid size
+inputNumber.addEventListener("change", updateGrid);
+
+// Change pixel to random color when cursor hovers over it
 const pixel = document.querySelector("div");
 pixel.addEventListener("mouseover", function(event) {
-    
-    event.target.style.backgroundColor = getRandomColor();
+    event.target.style.backgroundColor = randomColor();
 });
 
-// Changes grid according to user input value
-userInput.addEventListener("change", changeGrid);
-
-// Resets page
-resetButton.addEventListener("click", function() {
+resetButton.addEventListener("click", () => {
     grid.innerHTML = "";
-    userInput.value = "";
-    grid.style.setProperty("grid-template-columns", `repeat(16, 2fr)`);
-    grid.style.setProperty("grid-template-rows", `repeat(16, 2fr)`);
-    makeGrid();
+    grid.style.setProperty (
+        "grid-template-columns", `repeat(16, 2fr)`
+    );
+    grid.style.setProperty (
+        "grid-template-rows", `repeat(16, 2fr)`
+    );
+    createGrid();
 });
 
-makeGrid();
+// Stores each grid pixel within a nodelist 
+let square = document.getElementsByClassName("pixel");
+
+light = () => {
+    // Converts nodelist into array
+    square = Array.from(square);
+    for (let i = 0; i < square.length; i++) {
+        square[i].classList.replace("pixel", "light");
+    }
+
+    grid.style.setProperty (
+        "border", "black"
+    )
+
+    body.style.setProperty (
+        "background-color", "white"
+    )
+
+    body.style.setProperty (
+        "color", "black"
+    )
+}
+
+dark = () => {
+    square = Array.from(square);
+    for (let i = 0; i < square.length; i++) {
+        square[i].classList.replace("light", "pixel");
+    }
+
+    grid.style.setProperty (
+        "border", "2px solid white"
+    )
+
+    body.style.setProperty (
+        "background-color", "black"
+    )
+
+    body.style.setProperty (
+        "color", "white"
+    )
+}
+
+const darkMode = document.querySelector(".dark-mode");
+darkMode.addEventListener("click", () => {
+    dark();
+})
+
+const lightMode = document.querySelector(".light-mode");
+lightMode.addEventListener("click", () => {
+    light();
+})
+
+createGrid();
