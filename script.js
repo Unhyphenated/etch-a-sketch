@@ -70,7 +70,7 @@ light = () => {
     }
 
     grid.style.setProperty (
-        "border", "black"
+        "border", "2px solid black"
     )
 
     body.style.setProperty (
