@@ -59,14 +59,14 @@ resetButton.addEventListener("click", () => {
     createGrid();
 });
 
-// Stores each grid pixel within a nodelist 
-let square = document.getElementsByClassName("pixel");
-
 light = () => {
+    // Stores each grid pixel within a nodelist 
+    let squareDark = document.getElementsByClassName("pixel");
+
     // Converts nodelist into array
-    square = Array.from(square);
-    for (let i = 0; i < square.length; i++) {
-        square[i].classList.replace("pixel", "light");
+    squareDark = Array.from(squareDark);
+    for (let i = 0; i < squareDark.length; i++) {
+        squareDark[i].classList.replace("pixel", "light");
     }
 
     grid.style.setProperty (
@@ -80,12 +80,14 @@ light = () => {
     body.style.setProperty (
         "color", "black"
     )
-}
+};
 
 dark = () => {
-    square = Array.from(square);
-    for (let i = 0; i < square.length; i++) {
-        square[i].classList.replace("light", "pixel");
+    let squareLight = document.getElementsByClassName("light");
+    
+    squareLight = Array.from(squareLight);
+    for (let i = 0; i < squareLight.length; i++) {
+        squareLight[i].classList.replace("light", "pixel");
     }
 
     grid.style.setProperty (
@@ -99,16 +101,16 @@ dark = () => {
     body.style.setProperty (
         "color", "white"
     )
-}
+};
 
 const darkMode = document.querySelector(".dark-mode");
 darkMode.addEventListener("click", () => {
     dark();
-})
+});
 
 const lightMode = document.querySelector(".light-mode");
 lightMode.addEventListener("click", () => {
     light();
-})
+});
 
 createGrid();
